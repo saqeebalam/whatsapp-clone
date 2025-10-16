@@ -10,10 +10,18 @@ const config = {
 };
 
 // Conditionally load visual editing modules only if enabled
+
+const isDev = process.env.NODE_ENV === "development";
+
+
 let babelMetadataPlugin;
 let setupDevServer;
 
-if (config.enableVisualEdits) {
+// if (config.enableVisualEdits) {
+//   babelMetadataPlugin = require("./plugins/visual-edits/babel-metadata-plugin");
+//   setupDevServer = require("./plugins/visual-edits/dev-server-setup");
+// }
+if (isDev && process.env.REACT_APP_ENABLE_VISUAL_EDITS === "true") {
   babelMetadataPlugin = require("./plugins/visual-edits/babel-metadata-plugin");
   setupDevServer = require("./plugins/visual-edits/dev-server-setup");
 }
@@ -81,7 +89,7 @@ if (config.enableVisualEdits) {
 }
 
 // Setup dev server with visual edits and/or health check
-if (config.enableVisualEdits || config.enableHealthCheck) {
+if (isDev && (config.enableVisualEdits || config.enableHealthCheck)) {
   webpackConfig.devServer = (devServerConfig) => {
     // Apply visual edits dev server setup if enabled
     if (config.enableVisualEdits && setupDevServer) {
