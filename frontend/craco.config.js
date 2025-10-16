@@ -82,7 +82,7 @@ const webpackConfig = {
 };
 
 // Only add babel plugin if visual editing is enabled
-if (config.enableVisualEdits) {
+if (isDev && config.enableVisualEdits && babelMetadataPlugin) {
   webpackConfig.babel = {
     plugins: [babelMetadataPlugin],
   };
