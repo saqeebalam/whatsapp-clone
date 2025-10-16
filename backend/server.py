@@ -41,6 +41,11 @@ logger = logging.getLogger(__name__)
 # ============= AUTH ROUTES =============
 @api_router.post("/auth/register", response_model=AuthResponse)
 async def register(user_data: UserCreate):
+
+     # Log which DB we are connecting to
+    logger.info(f"Connecting to DB: {db.name}, Collection: users")
+    logger.info(f"Connecting to DB: {db.name}, user_data.username")
+
     # Check if username already exists
     existing_user = await db.users.find_one({"username": user_data.username})
     if existing_user:
